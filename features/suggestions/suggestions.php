@@ -19,7 +19,7 @@ $html
 <div data-suggestions></div>
 EOT;
   return $html;
-});
+}, 99);
 
 
 add_filter('pre_get_posts', function( $query ) {
