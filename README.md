@@ -1,14 +1,6 @@
-# wp-sticky-widget-area
+# wp-search-xt
 
-Make widget-areas sticky
-
-
-## Filters
-
-#### sticky_widget_area_options
-
-Filter options passed to the js implementation.
-See [sticky-sidebar](https://www.npmjs.com/package/sticky-sidebar) for more information.
+Wordpress Search Extensions
 
 
 ## Development
