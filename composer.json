@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "type": "wordpress-plugin",
   "license": "MIT",
-  "description": "Make widget-areas sticky",
-  "homepage": "http://github.com/benignware-labs/wp-wp-search-xt",
+  "description": "Wordpress Search Extensions",
+  "homepage": "http://github.com/benignware-labs/wp-search-xt",
   "authors": [
     {
       "name": "Rafael Nowrotek",
@@ -16,7 +16,7 @@
     "wordpress", "wordpress-plugin", "search", "extension"
   ],
   "support": {
-    "issues": "https://github.com/benignware-labs/wp-wp-search-xt/issues"
+    "issues": "https://github.com/benignware-labs/wp-search-xt/issues"
   },
   "config": {
     "vendor-dir": "vendor/lib"
