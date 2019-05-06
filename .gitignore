@@ -1,0 +1,30 @@
+# Mac OS
+.DS_Store
+
+# Node
+node_modules
+**/node_modules
+npm-debug.log
+
+# PHP
+vendor
+composer.phar
+
+# Temp Dir
+tmp
+temp
+
+# Test Dir
+test
+
+# Env Files
+.env-*
+.env
+!.env-sample
+
+# Wordpress
+wp-config-*
+wp-config
+.plugins
+.mu-plugins
+.uploads
