@@ -1,45 +1,67 @@
 (function( $ ) {
-	$(function() {
-    const options = {
-      linkClass: 'search-suggestions-link'
-    };
+	$.widget("custom.catcomplete", $.ui.autocomplete, {
+		_create: function() {
+			this._super();
+			this.widget().menu( 'option', 'items', '> :not(.ui-widget-header)' );
 
+		},
+    _renderMenu: function(ul, items) {
+      const self = this;
+      let currentCategory = '';
+
+      $.each(items, function(index, item) {
+        if (item.category != currentCategory) {
+					const $header = $(`<li class="ui-widget-header">${item.category}</li>`);
+
+          ul.append($header);
+          currentCategory = item.category;
+        }
+
+        self._renderItemData(ul, item);
+      });
+    },
+		_renderItem: function( ul, item ) {
+		  return $( '<li>' )
+		    .append( item.label )
+		    .appendTo( ul );
+		}
+	});
+
+	$(function() {
 		const url = SearchXtSuggestions.url + '?action=my_search';
 
 		$('input[name="s"]').each(function() {
-      var $container = $(this).parents('form').next('*[data-suggestions]');
+      const $container = $(this).parents('form').next('*[data-suggestions]');
+
+			const data = $container.data('suggestions');
+
+			console.log('data', data);
+
+			const options = data ? { ...JSON.parse(decodeURIComponent(data)) } : {};
+
+			console.log('options', options);
+
+			// Fix twenty seventeen menu leaking styles
+			const $m = $(this).parents('.main-navigation');
+
+			if ($m.length) {
+				$m.before($container, $m);
+			}
 
       $container.addClass('search-suggestions-container');
 
-      var $instance = $(this).autocomplete({
+      const $instance = $(this).catcomplete({
         appendTo: $container,
   			source: url,
   			delay: 500,
-  			minLength: 3
+  			minLength: 1,
+				select: function(event, { item }) {
+					if (item.href) {
+						window.location.href = item.href;
+					}
+        },
+				...options
   		});
-
-      $instance.data("ui-autocomplete")._renderItem = function( $ul, item ) {
-
-        let html = `<span>${item.label}</span>`;
-
-        if (item.link) {
-          html = `<a class="${options.linkClass}" href="${item.link}">${html}</a>`;
-        }
-
-        return $( '<li class="ui-autocomplete-row list-group-item"></li>' )
-          .data( "item.autocomplete", item )
-          .append( html )
-          .appendTo( $ul );
-      };
-
-      $instance.data("ui-autocomplete")._renderMenu = function( $ul, items ) {
-        var instance = this;
-        $.each( items, function( index, item ) {
-          instance._renderItemData( $ul, item );
-        });
-
-        $ul.addClass('search-suggestions list-group');
-      };
 
       return $instance;
 	  });

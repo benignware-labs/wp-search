@@ -1,48 +1,60 @@
 <?php
 
 add_action( 'wp_enqueue_scripts', function() {
-  $dist_dir_url = plugin_dir_url(realpath(__DIR__ . '/../')) . 'dist';
+  $options = apply_filters('search_options', array());
+  $plugin_dir = realpath(__DIR__ . '/../../');
+  $dist_dir = $plugin_dir . '/dist';
+  $dist_url = plugin_dir_url($plugin_dir . '/.') . 'dist';
 
-	wp_register_script( 'search-xt-suggestions', $dist_dir_url . '/suggestions.js', array( 'jquery', 'jquery-ui-autocomplete' ), '1.0', false );
+	wp_register_script( 'search-xt-suggestions', $dist_url . '/suggestions.js', array( 'jquery', 'jquery-ui-autocomplete' ), '1.0', false );
   wp_localize_script( 'search-xt-suggestions', 'SearchXtSuggestions', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
+
 	wp_enqueue_script( 'search-xt-suggestions' );
+  wp_enqueue_style( 'search-xt-suggestions', $dist_url . '/suggestions.css' );
 
-  wp_enqueue_style( 'search-xt-suggestions', $dist_dir_url . '/suggestions.css' );
+  $options['theme'] = 'base';
 
-  wp_enqueue_style( 'bootstrap-css', 'https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css' );
+  $theme = $options['theme'];
+  $theme_path = 'themes/' . $theme;
+  $theme_dir = realpath($dist_dir . '/' . $theme_path);
 
+  if (is_dir($theme_dir)) {
+    wp_enqueue_style('jquery-ui', $dist_url . '/' . $theme_path . '/jquery-ui.min.css');
+    wp_enqueue_style('jquery-ui-' . $theme, $dist_url . '/' . $theme_path . '/theme.css', array( 'jquery-ui' ));
+  }
+
+  /*
+  $custom_css = "
+    .mycolor {
+      background: {$color};
+    }";
+  wp_add_inline_style( 'custom-style', $custom_css );
+  */
 });
 
 add_filter( 'get_search_form', function($html) {
-  $html = <<<EOT
-$html
-<div data-suggestions></div>
-EOT;
+  $options = apply_filters('search_options', array());
+  $autocomplete_options = array_filter($options['suggestions'], function($key) {
+    return !in_array($key, [ 'max_count' ]);
+  }, ARRAY_FILTER_USE_KEY);
+
+  $html.= '<div data-suggestions="' . urlencode(json_encode($autocomplete_options)) . '"></div>';
   return $html;
 }, 99);
 
-
-add_filter('pre_get_posts', function( $query ) {
-  /*if ( $query->is_search ) {
-    $query->set( 'post_type', array('post', 'page') );
-  }*/
-
-  return $query;
-});
-
-
 function my_search() {
-	$term = strtolower( $_GET['term'] );
-	$suggestions = array();
   global $post;
 
-  $items_per_page = 5;
+  $options = apply_filters('search_options', array());
+  $items_per_page = $options['suggestions']['max_count'];
 
-  // Add user-defined post-types
-	$post_types = array_merge([], get_post_types([
-    'public'   => true,
-    '_builtin' => true
-  ], 'names', 'and'));
+	$term = strtolower( $_GET['term'] );
+	$suggestions = array();
+  $post_types = array_keys(
+    array_filter($options['post_types'], function($enabled) {
+      return $enabled;
+    })
+  );
 
   $query_args = array(
     's' => $term,
@@ -51,9 +63,7 @@ function my_search() {
   );
 
   foreach ($post_types as $post_type) {
-
     $post_type_object = get_post_type_object($post_type);
-
     $post_type_label = $post_type_object->labels->name;
 
     $wp_query = new WP_Query(array_merge(
@@ -64,19 +74,16 @@ function my_search() {
     ));
 
     if ($wp_query->have_posts()) {
-      $suggestions[] = array(
-        'label' => $post_type_label
-      );
-
       while( $wp_query->have_posts() ) {
     	  $wp_query->the_post();
 
     		$suggestion = array_merge(
-          (array) $post,
+          // (array) $post,
           array(
             'label' => get_the_title(),
-            'link' => get_permalink(),
-            'content' => get_the_excerpt()
+            'href' => get_permalink(),
+            'content' => get_the_excerpt(),
+            'category' => $post_type
           )
         );
     		$suggestion['label'] = get_the_title();

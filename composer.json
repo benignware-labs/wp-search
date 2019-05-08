@@ -1,6 +1,6 @@
 {
   "name": "benignware/wp-search-xt",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "wordpress-plugin",
   "license": "MIT",
   "description": "Wordpress Search Extensions",
@@ -47,6 +47,18 @@
         "reference": "v0.0.1"
       }
     }
+  }, {
+    "type": "package",
+    "package": {
+      "name": "benignware/menu-item-search-form",
+      "version": "v0.1.0",
+      "type": "wordpress-plugin",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/benignware-labs/wp-menu-item-search-form.git",
+        "reference": "v0.1.0"
+      }
+    }
   }],
   "require": {
     "php": ">=5.3.0",
@@ -55,7 +67,8 @@
   "require-dev": {
     "wptrt/theme-unit-test": "dev-master",
     "wpackagist-plugin/wordpress-importer": ">=0.6.4",
-    "benignware/neverending-posts": "v0.0.1"
+    "benignware/neverending-posts": "v0.0.1",
+    "benignware/menu-item-search-form": "v0.1.0"
   },
   "extra": {
     "webroot-dir": "wp-core",

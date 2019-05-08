@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "610821dc7570109603f7b5552eb534ba",
+    "content-hash": "20bcef654dbcf34da90840294ba3b86d",
     "packages": [
         {
             "name": "composer/installers",
@@ -128,6 +128,16 @@
         }
     ],
     "packages-dev": [
+        {
+            "name": "benignware/menu-item-search-form",
+            "version": "v0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/benignware-labs/wp-menu-item-search-form.git",
+                "reference": "v0.1.0"
+            },
+            "type": "wordpress-plugin"
+        },
         {
             "name": "benignware/neverending-posts",
             "version": "v0.0.1",

@@ -1,4 +1,12 @@
-.search-suggestions {
-  background: white;
-  position: absolute;
+/* Fix twenty seventeen selectors */
+.widget:not(.widget_tag_cloud) .ui-autocomplete li + li:not(.ui-state-focus) {
+  margin-top: 0;
+}
+
+.widget .ui-autocomplete li:not(.ui-widget-header):not(.ui-state-focus) {
+  border: 0;
+}
+
+.widget .ui-autocomplete li {
+  padding: 0;
 }
