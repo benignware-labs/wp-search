@@ -32,7 +32,6 @@
 
 		$('input[name="s"]').each(function() {
       const $container = $(this).parents('form').next('*[data-suggestions]');
-
 			const data = $container.data('suggestions');
 
 			console.log('data', data);
@@ -42,11 +41,12 @@
 			console.log('options', options);
 
 			// Fix twenty seventeen menu leaking styles
+			/*
 			const $m = $(this).parents('.main-navigation');
-
 			if ($m.length) {
 				$m.before($container, $m);
 			}
+			*/
 
       $container.addClass('search-suggestions-container');
 
