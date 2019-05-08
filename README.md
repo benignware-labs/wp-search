@@ -1,6 +1,6 @@
-# wp-search-xt
+# wp-search
 
-Wordpress Search Extensions
+Wordpress Search Extension
 
 
 ## Development

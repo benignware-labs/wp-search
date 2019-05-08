@@ -1,10 +1,10 @@
 {
-  "name": "benignware/wp-search-xt",
-  "version": "0.0.3",
+  "name": "benignware/wp-search",
+  "version": "0.0.4",
   "type": "wordpress-plugin",
   "license": "MIT",
-  "description": "Wordpress Search Extensions",
-  "homepage": "http://github.com/benignware-labs/wp-search-xt",
+  "description": "Wordpress Search Extension",
+  "homepage": "http://github.com/benignware-labs/wp-search",
   "authors": [
     {
       "name": "Rafael Nowrotek",
@@ -16,7 +16,7 @@
     "wordpress", "wordpress-plugin", "search", "extension"
   ],
   "support": {
-    "issues": "https://github.com/benignware-labs/wp-search-xt/issues"
+    "issues": "https://github.com/benignware-labs/wp-search/issues"
   },
   "config": {
     "vendor-dir": "vendor/lib"
@@ -33,6 +33,18 @@
         "url": "https://github.com/WPTRT/theme-unit-test.git",
         "type": "git",
         "reference": "master"
+      }
+    }
+  }, {
+    "type": "package",
+    "package": {
+      "name": "benignware/bootstrap-hooks",
+      "version": "v0.1.0-beta.18",
+      "type": "wordpress-muplugin",
+      "source": {
+        "type": "git",
+        "url": "https://github.com/benignware/wp-bootstrap-hooks.git",
+        "reference": "v0.1.0-beta.18"
       }
     }
   }, {
@@ -66,9 +78,16 @@
   },
   "require-dev": {
     "wptrt/theme-unit-test": "dev-master",
+    "wemakecustom/wp-mu-loader": ">=1.0.2",
     "wpackagist-plugin/wordpress-importer": ">=0.6.4",
+    "benignware/bootstrap-hooks": "v0.1.0-beta.18",
     "benignware/neverending-posts": "v0.0.1",
     "benignware/menu-item-search-form": "v0.1.0"
+  },
+  "scripts": {
+    "post-autoload-dump": [
+      "php -r \"copy('wp-content/mu-plugins/mu-loader/mu-require.php', 'wp-content/mu-plugins/mu-require.php');\""
+    ]
   },
   "extra": {
     "webroot-dir": "wp-core",

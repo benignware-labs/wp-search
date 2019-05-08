@@ -14,9 +14,6 @@ composer.phar
 tmp
 temp
 
-# Test Dir
-test
-
 # Env Files
 .env-*
 .env

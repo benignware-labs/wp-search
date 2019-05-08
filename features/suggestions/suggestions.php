@@ -1,7 +1,7 @@
 <?php
 
 add_action( 'wp_enqueue_scripts', function() {
-  $options = apply_filters('search_options', array());
+  $options = get_search_options();
   $plugin_dir = realpath(__DIR__ . '/../../');
   $dist_dir = $plugin_dir . '/dist';
   $dist_url = plugin_dir_url($plugin_dir . '/.') . 'dist';
@@ -33,19 +33,20 @@ add_action( 'wp_enqueue_scripts', function() {
 });
 
 add_filter( 'get_search_form', function($html) {
-  $options = apply_filters('search_options', array());
+  $options = get_search_options();
   $autocomplete_options = array_filter($options['suggestions'], function($key) {
     return !in_array($key, [ 'max_count' ]);
   }, ARRAY_FILTER_USE_KEY);
 
   $html.= '<div data-suggestions="' . urlencode(json_encode($autocomplete_options)) . '"></div>';
+
   return $html;
 }, 99);
 
 function my_search() {
   global $post;
 
-  $options = apply_filters('search_options', array());
+  $options = get_search_options();
   $items_per_page = $options['suggestions']['max_count'];
 
 	$term = strtolower( $_GET['term'] );
@@ -83,7 +84,7 @@ function my_search() {
             'label' => get_the_title(),
             'href' => get_permalink(),
             'content' => get_the_excerpt(),
-            'category' => $post_type
+            'category' => __($post_type_object->label)
           )
         );
     		$suggestion['label'] = get_the_title();
