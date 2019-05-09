@@ -6,7 +6,7 @@ add_action( 'wp_enqueue_scripts', function() {
   $dist_dir = $plugin_dir . '/dist';
   $dist_url = plugin_dir_url($plugin_dir . '/.') . 'dist';
 
-	wp_register_script( 'search-xt-suggestions', $dist_url . '/suggestions.js', array( 'jquery', 'jquery-ui-autocomplete' ), '1.0', false );
+	wp_register_script( 'search-xt-suggestions', $dist_url . '/suggestions.js', array( 'jquery', 'jquery-ui-autocomplete' ), '1.0', true );
   wp_localize_script( 'search-xt-suggestions', 'SearchXtSuggestions', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
 
 	wp_enqueue_script( 'search-xt-suggestions' );
