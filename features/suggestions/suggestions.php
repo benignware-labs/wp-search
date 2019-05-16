@@ -6,21 +6,24 @@ add_action( 'wp_enqueue_scripts', function() {
   $dist_dir = $plugin_dir . '/dist';
   $dist_url = plugin_dir_url($plugin_dir . '/.') . 'dist';
 
-	wp_register_script( 'search-xt-suggestions', $dist_url . '/suggestions.js', array( 'jquery', 'jquery-ui-autocomplete' ), '1.0', true );
-  wp_localize_script( 'search-xt-suggestions', 'SearchXtSuggestions', array( 'url' => admin_url( 'admin-ajax.php' ) ) );
+  wp_dequeue_script('jquery-ui');
+  wp_enqueue_script('jquery-ui', $dist_url . '/jquery-ui/build/release.js', '1.12.1');
+
+	wp_register_script( 'search-xt-suggestions', $dist_url . '/suggestions.js', array( 'jquery-ui', 'jquery-ui-autocomplete' ), '1.0', true );
+  wp_localize_script( 'search-xt-suggestions', 'SearchXtSuggestions',
+    array(
+      'url' => admin_url('admin-ajax.php?action=my_search'),
+      'options' => urlencode(json_encode($options['suggestions']))
+    )
+  );
 
 	wp_enqueue_script( 'search-xt-suggestions' );
   wp_enqueue_style( 'search-xt-suggestions', $dist_url . '/suggestions.css' );
 
-  $options['theme'] = 'base';
+  wp_enqueue_style('jquery-ui', $dist_url . '/themes/base/jquery-ui.min.css');
 
-  $theme = $options['theme'];
-  $theme_path = 'themes/' . $theme;
-  $theme_dir = realpath($dist_dir . '/' . $theme_path);
-
-  if (is_dir($theme_dir)) {
-    wp_enqueue_style('jquery-ui', $dist_url . '/' . $theme_path . '/jquery-ui.min.css');
-    wp_enqueue_style('jquery-ui-' . $theme, $dist_url . '/' . $theme_path . '/theme.css', array( 'jquery-ui' ));
+  if ($options['theme']) {
+    wp_enqueue_style('jquery-ui-' . $theme, $dist_url . '/themes/' . $theme . '/theme.css', array( 'jquery-ui' ));
   }
 
   /*
@@ -33,12 +36,18 @@ add_action( 'wp_enqueue_scripts', function() {
 });
 
 add_filter( 'get_search_form', function($html) {
-  $options = get_search_options();
-  $autocomplete_options = array_filter($options['suggestions'], function($key) {
-    return !in_array($key, [ 'max_count' ]);
-  }, ARRAY_FILTER_USE_KEY);
+  $document = new DOMDocument();
+  @$document->loadHTML('<?xml encoding="utf-8" ?>' . $html);
 
-  $html.= '<div data-suggestions="' . urlencode(json_encode($autocomplete_options)) . '"></div>';
+  $xpath = new DOMXpath($document);
+  $input_element = $xpath->query("//input[@name='s']")->item(0);
+
+  if ($input_element) {
+    $input_element->setAttribute('data-search-input', '');
+    $html = preg_replace('~(?:<\?[^>]*>|<(?:!DOCTYPE|/?(?:html|head|body))[^>]*>)\s*~i', '', $document->saveHTML());
+
+    return $html;
+  }
 
   return $html;
 }, 99);

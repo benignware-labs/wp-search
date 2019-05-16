@@ -7,3 +7,7 @@ Template: twentyseventeen
 Text Domain: search-demo
 Version: 0.0.1
 */
+
+.screen-reader-text {
+  display: none;
+}

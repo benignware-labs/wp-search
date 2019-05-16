@@ -1,1 +1,122 @@
-!function(e){var t={};function n(r){if(t[r])return t[r].exports;var o=t[r]={i:r,l:!1,exports:{}};return e[r].call(o.exports,o,o.exports,n),o.l=!0,o.exports}n.m=e,n.c=t,n.d=function(e,t,r){n.o(e,t)||Object.defineProperty(e,t,{enumerable:!0,get:r})},n.r=function(e){"undefined"!=typeof Symbol&&Symbol.toStringTag&&Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),Object.defineProperty(e,"__esModule",{value:!0})},n.t=function(e,t){if(1&t&&(e=n(e)),8&t)return e;if(4&t&&"object"==typeof e&&e&&e.__esModule)return e;var r=Object.create(null);if(n.r(r),Object.defineProperty(r,"default",{enumerable:!0,value:e}),2&t&&"string"!=typeof e)for(var o in e)n.d(r,o,function(t){return e[t]}.bind(null,o));return r},n.n=function(e){var t=e&&e.__esModule?function(){return e.default}:function(){return e};return n.d(t,"a",t),t},n.o=function(e,t){return Object.prototype.hasOwnProperty.call(e,t)},n.p="",n(n.s=0)}([function(e,t,n){n(1),e.exports=n(2)},function(e,t){function n(e){for(var t=1;t<arguments.length;t++){var n=null!=arguments[t]?arguments[t]:{},o=Object.keys(n);"function"==typeof Object.getOwnPropertySymbols&&(o=o.concat(Object.getOwnPropertySymbols(n).filter(function(e){return Object.getOwnPropertyDescriptor(n,e).enumerable}))),o.forEach(function(t){r(e,t,n[t])})}return e}function r(e,t,n){return t in e?Object.defineProperty(e,t,{value:n,enumerable:!0,configurable:!0,writable:!0}):e[t]=n,e}var o;(o=jQuery).widget("custom.catcomplete",o.ui.autocomplete,{_create:function(){this._super(),this.widget().menu("option","items","> :not(.ui-widget-header)")},_renderMenu:function(e,t){var n=this,r="";o.each(t,function(t,i){if(i.category!=r){var u=o('<li class="ui-widget-header">'.concat(i.category,"</li>"));e.append(u),r=i.category}n._renderItemData(e,i)})},_renderItem:function(e,t){return o("<li>").append(t.label).appendTo(e)}}),o(function(){var e=SearchXtSuggestions.url+"?action=my_search";o('input[name="s"]').each(function(){var t=o(this).parents("form").next("*[data-suggestions]"),r=t.data("suggestions");console.log("data",r);var i=r?n({},JSON.parse(decodeURIComponent(r))):{};return console.log("options",i),t.addClass("search-suggestions-container"),o(this).catcomplete(n({appendTo:t,source:e,delay:500,minLength:1,select:function(e,t){var n=t.item;n.href&&(window.location.href=n.href)}},i))})})},function(e,t,n){e.exports=n.p+"suggestions.css"}]);
+/******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = 0);
+/******/ })
+/************************************************************************/
+/******/ ({
+
+/***/ "./features/suggestions/suggestions.css":
+/*!**********************************************!*\
+  !*** ./features/suggestions/suggestions.css ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("module.exports = __webpack_require__.p + \"suggestions.css\";\n\n//# sourceURL=webpack:///./features/suggestions/suggestions.css?");
+
+/***/ }),
+
+/***/ "./features/suggestions/suggestions.js":
+/*!*********************************************!*\
+  !*** ./features/suggestions/suggestions.js ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }\n\nfunction _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }\n\n(function ($) {\n  console.log('INIT WIDGET');\n  $.widget(\"custom.catcomplete\", $.ui.autocomplete, {\n    _create: function _create() {\n      this._super();\n\n      this.widget().menu('option', 'items', '> :not(.ui-widget-header)');\n    },\n    _renderMenu: function _renderMenu(ul, items) {\n      var self = this;\n      var currentCategory = '';\n      $.each(items, function (index, item) {\n        if (item.category != currentCategory) {\n          var $header = $(\"<li class=\\\"ui-widget-header\\\">\".concat(item.category, \"</li>\"));\n          ul.append($header);\n          currentCategory = item.category;\n        }\n\n        self._renderItemData(ul, item);\n      });\n    },\n    _renderItem: function _renderItem(ul, item) {\n      return $('<li>').append(item.label).appendTo(ul);\n    }\n  });\n  $(function () {\n    var options = _objectSpread({}, JSON.parse(decodeURIComponent(SearchXtSuggestions.options)));\n\n    console.log('options', options, $.ui.version);\n    $('input[data-search-input]').each(function () {\n      var $instance = $(this).catcomplete(_objectSpread({\n        appendTo: $('<div></div>').insertAfter(this.form),\n        source: SearchXtSuggestions.url,\n        delay: 500,\n        minLength: 1,\n        select: function select(event, _ref) {\n          var item = _ref.item;\n\n          if (item.href) {\n            window.location.href = item.href;\n          }\n        }\n      }, options.autocomplete, {\n        classes: {\n          'ui-catcomplete': 'highlight',\n          'ui-autocomplete': 'highlight'\n        }\n      }));\n      return $instance;\n    });\n  });\n})(jQuery);\n\n//# sourceURL=webpack:///./features/suggestions/suggestions.js?");
+
+/***/ }),
+
+/***/ 0:
+/*!******************************************************************************************!*\
+  !*** multi ./features/suggestions/suggestions.js ./features/suggestions/suggestions.css ***!
+  \******************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+eval("__webpack_require__(/*! ./features/suggestions/suggestions.js */\"./features/suggestions/suggestions.js\");\nmodule.exports = __webpack_require__(/*! ./features/suggestions/suggestions.css */\"./features/suggestions/suggestions.css\");\n\n\n//# sourceURL=webpack:///multi_./features/suggestions/suggestions.js_./features/suggestions/suggestions.css?");
+
+/***/ })
+
+/******/ });

@@ -21,4 +21,4 @@ wp plugin activate wordpress-importer
 wp plugin activate search
 
 # Import demo content
-# wp import vendor/lib/wptrt/theme-unit-test --authors=skip
+# wp import vendor/wptrt/theme-unit-test --authors=skip

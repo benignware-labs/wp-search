@@ -1,9 +1,10 @@
 (function( $ ) {
+	console.log('INIT WIDGET');
+
 	$.widget("custom.catcomplete", $.ui.autocomplete, {
 		_create: function() {
 			this._super();
 			this.widget().menu( 'option', 'items', '> :not(.ui-widget-header)' );
-
 		},
     _renderMenu: function(ul, items) {
       const self = this;
@@ -28,31 +29,14 @@
 	});
 
 	$(function() {
-		const url = SearchXtSuggestions.url + '?action=my_search';
+		const options = { ...JSON.parse(decodeURIComponent(SearchXtSuggestions.options)) };
 
-		$('input[name="s"]').each(function() {
-      const $container = $(this).parents('form').next('*[data-suggestions]');
-			const data = $container.data('suggestions');
+		console.log('options', options, $.ui.version);
 
-			console.log('data', data);
-
-			const options = data ? { ...JSON.parse(decodeURIComponent(data)) } : {};
-
-			console.log('options', options);
-
-			// Fix twenty seventeen menu leaking styles
-			/*
-			const $m = $(this).parents('.main-navigation');
-			if ($m.length) {
-				$m.before($container, $m);
-			}
-			*/
-
-      $container.addClass('search-suggestions-container');
-
+		$('input[data-search-input]').each(function() {
       const $instance = $(this).catcomplete({
-        appendTo: $container,
-  			source: url,
+        appendTo: $('<div></div>').insertAfter(this.form),
+  			source: SearchXtSuggestions.url,
   			delay: 500,
   			minLength: 1,
 				select: function(event, { item }) {
@@ -60,7 +44,11 @@
 						window.location.href = item.href;
 					}
         },
-				...options
+				...options.autocomplete,
+				classes: {
+					'ui-catcomplete': 'highlight',
+					'ui-autocomplete': 'highlight'
+				}
   		});
 
       return $instance;

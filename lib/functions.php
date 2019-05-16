@@ -2,6 +2,7 @@
 
 function get_search_options() {
   $search_options = get_option('search_options') ?: array(
+    'theme' => '',
     'suggestions' => [],
     'post_types' => []
   );
@@ -24,8 +25,10 @@ function get_search_options() {
       'suggestions' => array_merge(
         array(
           'max_count' => 5,
-          'min_length' => 1,
-          'delay' => 500
+          'autocomplete' => array(
+            'minLength' => 1,
+            'delay' => 500
+          )
         ),
         $search_options['suggestions']
       )
