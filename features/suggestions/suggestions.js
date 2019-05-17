@@ -1,10 +1,20 @@
 (function( $ ) {
-	console.log('INIT WIDGET');
+	const version = parseFloat($.ui.version.match(/^\d+\.\d+/)[0]);
+	const options = { ...JSON.parse(decodeURIComponent(SearchXtSuggestions.options)) };
+	const support = {
+		classes: version >= 1.12
+	};
 
-	$.widget("custom.catcomplete", $.ui.autocomplete, {
+	const classes = options.ui.classes || [];
+
+	$.widget("custom.searchcomplete", $.ui.autocomplete, {
 		_create: function() {
 			this._super();
 			this.widget().menu( 'option', 'items', '> :not(.ui-widget-header)' );
+			this.widget().menu( 'option', 'classes', classes );
+			this.widget( 'option', 'classes', classes );
+
+			this._invalid = false;
 		},
     _renderMenu: function(ul, items) {
       const self = this;
@@ -12,7 +22,8 @@
 
       $.each(items, function(index, item) {
         if (item.category != currentCategory) {
-					const $header = $(`<li class="ui-widget-header">${item.category}</li>`);
+					const className = classes['ui-widget-header'];
+					const $header = $(`<li class="ui-widget-header ${className}">${item.category}</li>`);
 
           ul.append($header);
           currentCategory = item.category;
@@ -20,21 +31,43 @@
 
         self._renderItemData(ul, item);
       });
+
+			this._invalid = true;
     },
 		_renderItem: function( ul, item ) {
 		  return $( '<li>' )
 		    .append( item.label )
 		    .appendTo( ul );
+		},
+		_resizeMenu: function() {
+			if (this._invalid) {
+				if (!support.classes) {
+					const ul = this.menu.element;
+
+					for (const [ className, customClass ] of Object.entries(classes)) {
+						if (ul.hasClass(className)) {
+							ul.addClass(customClass);
+						} else {
+							ul.find(`.${className}`).addClass(customClass);
+						}
+					}
+				}
+			}
 		}
 	});
 
 	$(function() {
-		const options = { ...JSON.parse(decodeURIComponent(SearchXtSuggestions.options)) };
+		const $input = $('input[data-search-input]');
 
-		console.log('options', options, $.ui.version);
+		$input.each(function() {
+			const $this = $(this);
 
-		$('input[data-search-input]').each(function() {
-      const $instance = $(this).catcomplete({
+			if (!support.classes) {
+				$this.addClass(classes['ui-autocomplete-input']);
+				// TODO: Apply `ui-autocomplete-loading`
+			}
+
+      const $instance = $this.searchcomplete({
         appendTo: $('<div></div>').insertAfter(this.form),
   			source: SearchXtSuggestions.url,
   			delay: 500,
@@ -44,11 +77,7 @@
 						window.location.href = item.href;
 					}
         },
-				...options.autocomplete,
-				classes: {
-					'ui-catcomplete': 'highlight',
-					'ui-autocomplete': 'highlight'
-				}
+				...options.suggestions.autocomplete
   		});
 
       return $instance;

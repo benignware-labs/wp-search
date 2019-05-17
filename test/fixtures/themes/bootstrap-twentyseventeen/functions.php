@@ -73,15 +73,15 @@ add_action( 'get_template_part_template-parts/navigation', 'my_template_part_act
 add_filter('search_options', function($options = array()) {
 	$options = array_merge($options, array(
     // Custom options
-    'suggestions' => array_merge($options['suggestions'], array(
-      'autocomplete' => array_merge($options['suggestions']['autocomplete'], array(
-        'classes' => array(
-          'ui-autocomplete' => 'hello',
-          'ui-autocomplete-input' => 'nevermind',
-          'ui-menu' => 'border-success',
-          'ui-widget-header' => 'lead'
-        )
-      ))
+    'ui' => array_merge($options['ui'], array(
+      'theme' => 'none',
+      'classes' => array(
+        'ui-autocomplete' => 'dropdown-menu',
+        'ui-autocomplete-input' => 'form-control',
+        'ui-menu' => 'dropdown-menu',
+        'ui-menu-item' => 'dropdown-item',
+        'ui-widget-header' => 'dropdown-header'
+      )
     ))
 	));
 

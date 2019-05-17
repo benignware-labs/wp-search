@@ -6,33 +6,35 @@ add_action( 'wp_enqueue_scripts', function() {
   $dist_dir = $plugin_dir . '/dist';
   $dist_url = plugin_dir_url($plugin_dir . '/.') . 'dist';
 
+  // Deregister first, then register again with new source, and enqueue
+  /*
+  wp_deregister_script('jquery-ui');
+  wp_register_script('jquery-ui', 'http://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js', array( 'jquery' ));
+  wp_enqueue_script('jquery-ui');
+  */
+
+  /*
   wp_dequeue_script('jquery-ui');
   wp_enqueue_script('jquery-ui', $dist_url . '/jquery-ui/build/release.js', '1.12.1');
+  */
 
-	wp_register_script( 'search-xt-suggestions', $dist_url . '/suggestions.js', array( 'jquery-ui', 'jquery-ui-autocomplete' ), '1.0', true );
+	wp_register_script( 'search-xt-suggestions', $dist_url . '/suggestions.js', array( 'jquery-ui-autocomplete' ), '1.0', true );
   wp_localize_script( 'search-xt-suggestions', 'SearchXtSuggestions',
     array(
       'url' => admin_url('admin-ajax.php?action=my_search'),
-      'options' => urlencode(json_encode($options['suggestions']))
+      'options' => urlencode(json_encode($options))
     )
   );
 
 	wp_enqueue_script( 'search-xt-suggestions' );
-  wp_enqueue_style( 'search-xt-suggestions', $dist_url . '/suggestions.css' );
+  // wp_enqueue_style( 'search-xt-suggestions', $dist_url . '/suggestions.css' );
 
-  wp_enqueue_style('jquery-ui', $dist_url . '/themes/base/jquery-ui.min.css');
+  $theme = $options['ui']['theme'];
 
-  if ($options['theme']) {
+  if ($theme && $theme !== 'none') {
+    wp_enqueue_style('jquery-ui', $dist_url . '/themes/base/jquery-ui.min.css');
     wp_enqueue_style('jquery-ui-' . $theme, $dist_url . '/themes/' . $theme . '/theme.css', array( 'jquery-ui' ));
   }
-
-  /*
-  $custom_css = "
-    .mycolor {
-      background: {$color};
-    }";
-  wp_add_inline_style( 'custom-style', $custom_css );
-  */
 });
 
 add_filter( 'get_search_form', function($html) {

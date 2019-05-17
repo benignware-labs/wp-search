@@ -1,4 +1,5 @@
 /* Fix twenty seventeen selectors */
+/*
 .widget:not(.widget_tag_cloud) .ui-autocomplete li + li:not(.ui-state-focus) {
   margin-top: 0;
 }
@@ -10,3 +11,4 @@
 .widget .ui-autocomplete li {
   padding: 0;
 }
+*/

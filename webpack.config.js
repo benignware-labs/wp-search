@@ -51,11 +51,11 @@ module.exports = {
       {
         from: path.resolve(__dirname, 'node_modules/jquery-ui-themes/themes'),
         to: path.resolve(__dirname, 'dist/themes')
-      },
+      },/*
       {
         from: path.resolve(__dirname, 'node_modules/jquery-ui'),
         to: path.resolve(__dirname, 'dist/jquery-ui')
-      }
+      }*/
     ])
   ]
 };

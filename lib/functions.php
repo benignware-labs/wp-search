@@ -1,11 +1,7 @@
 <?php
 
 function get_search_options() {
-  $search_options = get_option('search_options') ?: array(
-    'theme' => '',
-    'suggestions' => [],
-    'post_types' => []
-  );
+  $search_options = get_option('search_options') ?: [];
 
   $options = apply_filters('search_options', array_merge(
     $search_options,
@@ -20,7 +16,7 @@ function get_search_options() {
             // '_builtin' => true
           ], 'names', 'and')
         ),
-        $search_options['post_types']
+        $search_options['post_types'] ?: []
       ),
       'suggestions' => array_merge(
         array(
@@ -30,7 +26,18 @@ function get_search_options() {
             'delay' => 500
           )
         ),
-        $search_options['suggestions']
+        $search_options['suggestions'] ?: []
+      ),
+      'ui' => array_merge(
+        array(
+          'theme' => 'base',
+          'classes' => array(
+            'ui-autocomplete' => 'dropdown-menu',
+            'ui-menu' => 'menu',
+            'ui-menu-item' => 'menu-item',
+          )
+        ),
+        $search_options['ui'] ?: []
       )
     )
   ));
