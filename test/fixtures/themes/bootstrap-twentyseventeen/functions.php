@@ -1,6 +1,6 @@
 <?php
 
-
+require_once 'inc/customizer.php';
 
 add_action( 'after_setup_theme', function() {
   add_theme_support( 'custom-logo', array(
@@ -53,10 +53,12 @@ if (function_exists( 'wp_bootstrap_hooks' )) {
 
 add_filter( 'bootstrap_options', function($options) {
   return array_merge($options, array(
+    /*
     'search_submit_label' => '<i class="fa fa-search"></i>', // Show font-awesome search icon in searchform
     'submit_button_class' => 'btn',
 		'post_tag_class' => 'badge badge-primary text-light mb-1',
 		'next_posts_link_class' => 'btn btn-primary btn-lg btn-block btn-progress mb-4 mb-lg-0',
+    */
   ));
 });
 
@@ -95,9 +97,11 @@ add_action( 'get_template_part_template-parts/navigation', 'my_template_part_act
 */
 
 add_filter('search_options', function($options = array()) {
+  $ui = isset($options['ui']) && is_array($options['ui']) ? $options['ui'] : array();
+
 	$options = array_merge($options, array(
     // Custom options
-    'ui' => array_merge($options['ui'], array(
+    'ui' => array_merge($ui, array(
       'theme' => 'none',
       'classes' => array(
         'ui-autocomplete' => 'dropdown-menu',
@@ -111,3 +115,29 @@ add_filter('search_options', function($options = array()) {
 
 	return $options;
 });
+
+
+/**
+ * Display custom color CSS.
+ */
+add_action('wp_head', function() {
+  $theme_colors = [
+    'primary',
+    'secondary',
+    'success',
+    'info',
+    'danger',
+    'warning',
+    'light',
+    'dark'
+  ];
+	?>
+		<style type="text/css" id="custom-theme-colors">
+      :root {
+        <?php foreach($theme_colors as $color_slug): ?>
+    			--<?= $color_slug; ?>: <?= esc_attr(get_theme_mod($color_slug)); ?>;
+        <?php endforeach; ?>
+      }
+		</style>
+	<?php
+}, 11);

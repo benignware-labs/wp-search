@@ -18,16 +18,16 @@ add_action( 'wp_enqueue_scripts', function() {
   wp_enqueue_script('jquery-ui', $dist_url . '/jquery-ui/build/release.js', '1.12.1');
   */
 
-	wp_register_script( 'search-xt-suggestions', $dist_url . '/suggestions.js', array( 'jquery-ui-autocomplete' ), '1.0', true );
-  wp_localize_script( 'search-xt-suggestions', 'SearchXtSuggestions',
+	wp_register_script( 'search-suggestions', $dist_url . '/suggestions.js', array( 'jquery-ui-autocomplete' ), '1.0', true );
+  wp_localize_script( 'search-suggestions', 'SearchXtSuggestions',
     array(
       'url' => admin_url('admin-ajax.php?action=my_search'),
       'options' => urlencode(json_encode($options))
     )
   );
 
-	wp_enqueue_script( 'search-xt-suggestions' );
-  // wp_enqueue_style( 'search-xt-suggestions', $dist_url . '/suggestions.css' );
+	wp_enqueue_script('search-suggestions' );
+  wp_enqueue_style('search-suggestions', $dist_url . '/suggestions.css');
 
   $theme = $options['ui']['theme'];
 
@@ -35,7 +35,7 @@ add_action( 'wp_enqueue_scripts', function() {
     wp_enqueue_style('jquery-ui', $dist_url . '/themes/base/jquery-ui.min.css');
     wp_enqueue_style('jquery-ui-' . $theme, $dist_url . '/themes/' . $theme . '/theme.css', array( 'jquery-ui' ));
   }
-});
+}, 99);
 
 add_filter( 'get_search_form', function($html) {
   $document = new DOMDocument();

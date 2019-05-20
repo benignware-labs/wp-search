@@ -1,6 +1,6 @@
 {
   "name": "wp-search",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Wordpress Search Extension",
   "main": "dist/suggestions.js",
   "scripts": {

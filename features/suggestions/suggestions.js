@@ -23,7 +23,7 @@
       $.each(items, function(index, item) {
         if (item.category != currentCategory) {
 					const className = classes['ui-widget-header'];
-					const $header = $(`<li class="ui-widget-header ${className}">${item.category}</li>`);
+					const $header = $(`<li class="ui-widget-header search-suggestions-category ${className}">${item.category}</li>`);
 
           ul.append($header);
           currentCategory = item.category;
@@ -35,15 +35,15 @@
 			this._invalid = true;
     },
 		_renderItem: function( ul, item ) {
-		  return $( '<li>' )
+		  return $( '<li class="search-suggestions-item">' )
 		    .append( item.label )
 		    .appendTo( ul );
 		},
 		_resizeMenu: function() {
 			if (this._invalid) {
-				if (!support.classes) {
-					const ul = this.menu.element;
+				const ul = this.menu.element;
 
+				if (!support.classes) {
 					for (const [ className, customClass ] of Object.entries(classes)) {
 						if (ul.hasClass(className)) {
 							ul.addClass(customClass);
@@ -52,7 +52,15 @@
 						}
 					}
 				}
+
+				ul.addClass('search-suggestions');
 			}
+
+			window.requestAnimationFrame(() => {
+				const w = $(window).width() - this.menu.element.offset().left - parseFloat(this.menu.element.css('marginRight'));
+
+				this.menu.element.outerWidth(w);
+			});
 		}
 	});
 
@@ -68,7 +76,7 @@
 			}
 
       const $instance = $this.searchcomplete({
-        appendTo: $('<div></div>').insertAfter(this.form),
+        appendTo: $('<div class="search-suggestions-container"></div>').insertAfter(this.form),
   			source: SearchXtSuggestions.url,
   			delay: 500,
   			minLength: 1,

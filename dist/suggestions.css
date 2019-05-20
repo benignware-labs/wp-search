@@ -1,4 +1,18 @@
-/* Fix twenty seventeen selectors */
+.search-suggestions-container .search-suggestions {
+  max-width: 420px;
+  margin-right: 1rem;
+}
+
+.search-suggestions-container .search-suggestions-item {
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+
+/* Fix twenty seventeen element selectors */
 /*
 .widget:not(.widget_tag_cloud) .ui-autocomplete li + li:not(.ui-state-focus) {
   margin-top: 0;
