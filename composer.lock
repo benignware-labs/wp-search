@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "a619e5afc56849e5cc43b70134e254ef",
+    "content-hash": "df3f6223b41dd30397adac48b600a968",
     "packages": [
         {
             "name": "composer/installers",
@@ -210,9 +210,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://downloads.wordpress.org/plugin/wordpress-importer.0.6.4.zip",
-                "reference": null,
-                "shasum": null
+                "url": "https://downloads.wordpress.org/plugin/wordpress-importer.0.6.4.zip"
             },
             "require": {
                 "composer/installers": "~1.0"
@@ -228,7 +226,8 @@
                 "url": "https://github.com/WPTRT/theme-unit-test.git",
                 "reference": "master"
             },
-            "type": "library"
+            "type": "library",
+            "time": "2019-05-12T05:00:52+00:00"
         }
     ],
     "aliases": [],

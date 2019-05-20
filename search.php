@@ -4,7 +4,7 @@
  Plugin Name: Search
  Plugin URI: http://github.com/benignware/wp-search
  Description: Wordpress Search Extensions
- Version: 0.0.6
+ Version: 0.0.7
  Author: Rafael Nowrotek, Benignware
  Author URI: http://benignware.com
  License: MIT
