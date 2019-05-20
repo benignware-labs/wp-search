@@ -1,5 +1,20 @@
 <?php
 
+
+
+add_action( 'after_setup_theme', function() {
+  add_theme_support( 'custom-logo', array(
+    'height'      => 40,
+    'width'       => 80,
+    'flex-height' => false,
+    'flex-width'  => true,
+    'header-text' => array(
+      'site-title',
+      'site-description'
+    ),
+  ));
+}, 11);
+
 add_action('wp_enqueue_scripts', function() {
 
   wp_dequeue_style( 'twentyseventeen-style' );
@@ -26,15 +41,24 @@ add_action('wp_enqueue_scripts', function() {
   wp_enqueue_style( 'bootstrap-twentyseventeen-style', get_stylesheet_directory_uri() . '/style.css');
 
   // Load the dark colorscheme.
-	if ( 'dark' === get_theme_mod( 'colorscheme', 'light' ) || is_customize_preview() ) {
+	/* if ( 'dark' === get_theme_mod( 'colorscheme', 'light' ) || is_customize_preview() ) {
 		wp_enqueue_style( 'bootstrap-twentyseventeen-colors-dark', get_theme_file_uri( '/assets/css/colors-dark.css' ), array( 'twentyseventeen-style' ), '1.0' );
-	}
+	} */
 
 }, 11);
 
 if (function_exists( 'wp_bootstrap_hooks' )) {
 	wp_bootstrap_hooks();
 }
+
+add_filter( 'bootstrap_options', function($options) {
+  return array_merge($options, array(
+    'search_submit_label' => '<i class="fa fa-search"></i>', // Show font-awesome search icon in searchform
+    'submit_button_class' => 'btn',
+		'post_tag_class' => 'badge badge-primary text-light mb-1',
+		'next_posts_link_class' => 'btn btn-primary btn-lg btn-block btn-progress mb-4 mb-lg-0',
+  ));
+});
 
 /*
 add_action('after_setup_theme', function() {

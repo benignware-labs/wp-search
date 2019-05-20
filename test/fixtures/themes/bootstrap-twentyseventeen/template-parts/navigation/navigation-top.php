@@ -9,9 +9,15 @@
  */
 ?>
 <nav id="site-navigation" class="navbar navbar-expand-md navbar-<?= get_theme_mod( 'colorscheme') ?: 'light'; ?> px-0" role="navigation" aria-label="<?php esc_attr_e( 'Top Menu', 'twentyseventeen' ); ?>">
-	<a class="navbar-brand site-title" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" title="<?php bloginfo( 'name' ); ?>">
-		<?php bloginfo( 'name' ); ?>
-	</a>
+	<?php if (!has_custom_logo()): ?>
+		<a class="navbar-brand site-title" href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" title="<?php bloginfo( 'name' ); ?>">
+			<?php bloginfo( 'name' ); ?>
+		</a>
+	<?php else: ?>
+		<?php the_custom_logo([
+			'class' => 'navbar-brand'
+		]); ?>
+	<?php endif; ?>
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 	</button>
